@@ -57,7 +57,8 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		position: relative;
 		display: inline-block;
 		color: red;
-		cursor: help;
+		cursor: default;
+		letter-spacing: -0.1em;
 	}
 
 	/* Tooltip text */
@@ -66,13 +67,14 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		width: 250px;
 		background-color: rgba(255,255,255,0.96);
 		color: black;
-		padding: 20px 15px;
+		padding: 12px 15px;
 		border: 1px solid;
 		box-sizing: border-box;
 		/* Position the tooltip text - see examples below! */
 		position: absolute;
 		z-index: 1;
 		cursor: initial;
+		letter-spacing: 0;
 	}
 
 	/* Show the tooltip text when you mouse over the tooltip container */
@@ -82,8 +84,8 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 	}
 
 	.tooltiptext{
-		font-size:.5em;
-		line-height:1.4em;
+		font-size: .5em;
+		line-height: 1.4em;
 		padding-top: 10px;
 		letter-spacing:0.1em;
 		word-spacing:-0.1em;
@@ -127,17 +129,15 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		transition: transform .5s;
 	}
 
+	
+
 
 	/* ========
 	     ipad
        ======== */
 	@media screen and (min-width: 737px){
 		#introtext{
-	        /*position:static;*/
 	        font-size: 4.5em;
-	        /*line-height: 1.2em;*/
-	        /*letter-spacing:0.03em;*/
-	        /*word-spacing:-0.035em;*/
 	    }
 		header
 		{

@@ -28,7 +28,7 @@ foreach($children as $child)
 		if( empty($c_thumbnail) )
 			$c_thumbnail = m_url($c_media[0]);
 	}
-	?><div class="list-item"><a class="list-item-link" href="<?= $c_url; ?>"><?= empty( $c_thumbnail ) ? '' : '<div class="list-item-thumbnail-wrapper"><img class="list-item-thumbnail" src="'.$c_thumbnail.'" ></div>'; ?><h2 class="list-item-title"><?= $c_title; ?></h2></a></div><?
+	?><div class="list-item"><a class="list-item-link" href="<?= $c_url; ?>"><?= empty( $c_thumbnail ) ? '' : '<div class="list-item-thumbnail-wrapper"><div class="list-item-thumbnail" style="background-image:url('.$c_thumbnail.')" ></div></div>'; ?><h2 class="list-item-title"><?= $c_title; ?></h2></a></div><?
 }
 
 
@@ -70,13 +70,27 @@ if($uri[1] == 'list') {
 	{
 		position: relative;
 		padding-bottom: 66%;
+		overflow: hidden;
 	}
 	.list-item-thumbnail
 	{
 		position: absolute;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		background-size: cover;
+	}
+	/*.noTouchScreen .list-item-link:hover img
+	{
+		transform: scale(2);
+	}*/
+	.noTouchScreen .list-item-link:hover .list-item-thumbnail
+	{
+		transition: transform .25s;
+		transform: scale(1.2);
+	}
+	.noTouchScreen .list-item-link:hover .list-item-title
+	{
+		font-weight: bold;
 	}
 	.list-item-link
 	{
