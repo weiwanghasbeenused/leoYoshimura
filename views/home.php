@@ -151,6 +151,21 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		{
 			display: none;
 		}
+		.tooltiptext
+		{
+			font-size: .35em;
+			line-height:1.4em;
+		}
+	}
+	/* ========
+	     ipad
+       ======== */
+	@media screen and (min-width: 875px){
+		
+		.tooltiptext
+		{
+			font-size: .25em;
+		}
 	}
 	/* ==========
 		 laptop
@@ -164,8 +179,8 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 	        /*word-spacing:-0.035em;*/
 	    }
 	    .tooltiptext{
-			font-size:0.25em;
-			line-height:1.4em;
+			/*font-size:0.25em;*/
+			/*line-height:1.4em;*/
 		}
 	}
 	/* ================
@@ -180,8 +195,6 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 </style>
 <script>
 	var tooltip_version = '<?= $tooltip_version; ?>';
-	console.log(tooltip_version);
-	// console.log(document.getElementById('introtext').offsetLeft);
 	var container_horizontal_padding = 20;
 	var tooltiptext_width = 250;
 	var tooltiptext_left_dev = -20;
@@ -190,18 +203,26 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 	if(sTooltip.length != 0)
 	{
 		[].forEach.call(sTooltip, function(el, i){
-			el.addEventListener('click', function(){
-				console.log('click');
-				if(!el.classList.contains('active'))
-				{
-					let currentActive = document.querySelector('.tooltip.active');
-					if(currentActive)
-						currentActive.classList.remove('active');
-					el.classList.add('active');
-				}
-				else
-					el.classList.remove('active');
-			});
+			if(hasTouchScreen){
+				el.addEventListener('click', function(event){
+					if(!el.classList.contains('active'))
+					{
+						let currentActive = document.querySelector('.tooltip.active');
+						if(currentActive)
+							currentActive.classList.remove('active');
+						el.classList.add('active');
+						setTimeout(function(){
+							
+						}, 0);
+						
+					}
+					else
+					{
+						if(event.target.classList.contains('tooltip'))
+							el.classList.remove('active');
+					}
+				});
+			}
 			if(tooltip_version == 0){
 				let this_text = el.querySelector('.tooltiptext');
 				if(this_text)
@@ -212,19 +233,25 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 						this_text.style.left =  - (this_left + tooltiptext_width - wW -container_horizontal_padding) + tooltiptext_left_dev + 'px'
 				}
 			}
-			else if(tooltip_version == 1)
-			{
-				// let this_text = el.querySelector('.tooltiptext');
-				// if(this_text)
-				// {
-				// 	this_text.addEventListener('click', function(){
-				// 		let currentActive = document.querySelector('.tooltip.active');
-				// 		console.log(currentActive);
-				// 		if(currentActive)
-				// 			currentActive.classList.remove('active');
-				// 	});
-				// }
-			}
 		});
 	}
+	if(hasTouchScreen)
+	{
+		document.addEventListener('click', function(e){
+			// console.log('click document');
+			checkTarget(e);
+		});
+		function checkTarget(e){
+			console.log(e.target);
+			if(!e.target.classList.contains('tooltiptext') && !e.target.classList.contains('tooltip'))
+			{
+				if(document.querySelector('.tooltip.active'))
+				{
+					document.querySelector('.tooltip.active').classList.remove('active');
+					document.removeEventListener('click', checkTarget);
+				}
+			}
+		}
+	}
+	
 </script>
