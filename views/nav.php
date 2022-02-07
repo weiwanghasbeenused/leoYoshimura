@@ -1,5 +1,28 @@
+<?
+$temp = $oo->urls_to_ids(array('nav'));
+$nav_id = end($temp);
+$nav_item = $oo->get($nav_id);
+$title = '';
+$subtitle = '';
+$title_pattern = '/\[(title|home)\]\((.*?)\)/';
+$subtitle_pattern = '/\[(subtitle|listing)\]\((.*?)\)/';
+
+preg_match($title_pattern, $nav_item['body'], $temp);
+if(!empty($temp)){
+	$title = $temp[2];
+	if($temp[1] == 'home')
+		$title = '<a href="/">' . $title . '</a>';
+}
+
+preg_match($subtitle_pattern, $nav_item['body'], $temp);
+if(!empty($temp)){
+	$subtitle = $temp[2];
+	if($temp[1] == 'listing')
+		$subtitle = '<a href="/list">' . $subtitle . '</a>';
+}
+if(!empty($title) || !empty($subtitle)) { ?>
 <header id="main-header" class="container float-container">
-	<h1 id="site-name-left"><a href="/">Leo Yoshimura</a></h1><div id="nav-line"></div><h1 id="site-name-right"><a href="/list">Art Direction and Production Design</a></h1>
+	<h1 id="site-name-left"><?= $title; ?></h1><div id="nav-line"></div><h1 id="site-name-right"><?= $subtitle; ?></h1>
 </header>
 <style>
 	#nav-line
@@ -22,10 +45,8 @@
 	{
 		font-size:1em;
 	    line-height: 1.4em;
-	    /*margin-bottom: 3.5em;*/
 		letter-spacing:0.05em;
 		word-spacing:-0.1em;
-		/*font-weight: 100;*/
 	}
 	#main-header
 	{
@@ -36,7 +57,7 @@
 		display: flex;
 		box-sizing: border-box;
 		padding-top: 20px;
-		
+		z-index: 1000;
 	}
 	#site-name-left
 	{
@@ -73,6 +94,6 @@
 		}
 	}
 </style>
-
+<? }
 
 
