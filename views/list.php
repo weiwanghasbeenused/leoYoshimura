@@ -60,7 +60,9 @@ if($uri[1] == 'list') {
 		font-size: 14px;
 		line-height: 1.3em;
 		font-weight: 400;
-		text-align: center;
+		display: inline-block;
+		border-bottom: 2px solid transparent;
+		padding: 0 2px 2px 2px;
 	}
 	.list-item-thumbnail-wrapper + .list-item-title
 	{
@@ -79,10 +81,6 @@ if($uri[1] == 'list') {
 		height: 100%;
 		background-size: cover;
 	}
-	/*.noTouchScreen .list-item-link:hover img
-	{
-		transform: scale(2);
-	}*/
 	.noTouchScreen .list-item-link:hover .list-item-thumbnail
 	{
 		transition: transform .25s;
@@ -90,11 +88,13 @@ if($uri[1] == 'list') {
 	}
 	.noTouchScreen .list-item-link:hover .list-item-title
 	{
-		font-weight: bold;
+		/*font-weight: bold;*/
+		border-color: #000;
 	}
 	.list-item-link
 	{
 		display: block;
+		text-align: center;
 	}
 	@media screen and (min-width: 737px){
 		.list-item
