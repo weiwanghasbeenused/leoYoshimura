@@ -91,6 +91,13 @@ main {
 	height: 3px;
 	background-color: #000;
 }
+.float-container:after
+{
+	content: " ";
+	display: block;
+	height: 0;
+	clear: both;
+}
 /*#topbar{
     font-size:1em;
     line-height: 1.4em;

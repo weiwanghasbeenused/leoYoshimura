@@ -22,6 +22,8 @@ $body_class = '';
 if(!$uri[1])
     $body_class .= ' home';
 
+require_once('static/php/function.php');
+
 ?><!DOCTYPE html>
 <html>
 <head>
