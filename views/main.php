@@ -16,8 +16,10 @@
 				unset($media[$key]);
 		}
 
-		if( empty($thumbnail) )
+		if( empty($thumbnail) ){
 			$thumbnail = m_url($media[0]);
+			unset($media[0]);
+		}
 	}
 	$list = getVisibleList();
 	$page_idx = false;
@@ -54,11 +56,13 @@
 				}
 			} ?>
 		</div>
-		<div id="detail-landing-image-control">
+		<? if(!empty($media)){
+			?><div id="detail-landing-image-control">
 			<div id="detail-landing-image-control-prev" onClick="changeImage('prev')"></div>
 			<div id="detail-landing-image-control-paging"><span id="paging-current">1</span> / <span id="paging-total"></span></div>
 			<div id="detail-landing-image-control-next" onClick="changeImage('next')"></div>
 		</div><?
+		} 
 	} ?>
 	<h1 id="detail-title"><?= $item['name1']; ?></h1>
 	<section id="detail-body">
