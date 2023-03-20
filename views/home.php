@@ -62,8 +62,8 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 	}
 
 	/* Tooltip text */
-	.tooltip .tooltiptext {
-		visibility: hidden;
+	.tooltiptext {
+/*		visibility: hidden;*/
 		width: 250px;
 		background-color: rgba(255,255,255,0.96);
 		color: black;
@@ -75,44 +75,29 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		z-index: 1;
 		cursor: initial;
 		letter-spacing: 0;
-	}
-
-	/* Show the tooltip text when you mouse over the tooltip container */
-	.noTouchScreen .tooltip:hover .tooltiptext,
-	.tooltip.active .tooltiptext {
-		visibility: visible;
-	}
-
-	.tooltiptext{
 		font-size: .5em;
 		line-height: 1.4em;
 		padding-top: 10px;
-		letter-spacing:0.1em;
-		word-spacing:-0.1em;
-	}
-
-	/*fade in */
-	.tooltip .tooltiptext {
 		opacity: 0;
-		transition: all .3s ease-out;
+		top: 30px;
+		left: 0;
+		pointer-events: none;
 	}
 
 	.noTouchScreen .tooltip:hover .tooltiptext,
 	.tooltip.active .tooltiptext
 	{
 		opacity: 1;
+		transition: all .3s ease-out;
+		pointer-events: initial;
 	}
 	#home-container
 	{
 		/*padding-top: 180px;*/
 	}
 
-	/* tooltip dev  */
-	#home-container[tooltip="0"] .tooltiptext
-	{
-		top: 40px;
-	}
-	#home-container[tooltip="1"] .tooltiptext
+	
+	/*#home-container[tooltip="1"] .tooltiptext
 	{
 		position: fixed;
 		right: 0;
@@ -128,7 +113,7 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		transform: translate(0, 0);
 		transition: transform .5s;
 	}
-
+*/
 	
 
 
@@ -153,8 +138,9 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		}
 		.tooltiptext
 		{
-			font-size: .35em;
+			font-size: .32em;
 			line-height:1.4em;
+			width: 350px;
 		}
 	}
 	/* ========
@@ -164,7 +150,7 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		
 		.tooltiptext
 		{
-			font-size: .25em;
+/*			font-size: .25em;*/
 		}
 	}
 	/* ==========
@@ -174,11 +160,9 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		#introtext{
 	        /*position:static;*/
 	        font-size: 4.5em;
-	        /*line-height: 1.2em;*/
-	        /*letter-spacing:0.03em;*/
-	        /*word-spacing:-0.035em;*/
 	    }
 	    .tooltiptext{
+	    	width: 30vw;
 			/*font-size:0.25em;*/
 			/*line-height:1.4em;*/
 		}
@@ -187,17 +171,16 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		 large screen
 	   ================ */
 	@media screen and (min-width: 1500px){
-		.container
-		{
-			
+		.tooltiptext{
+			width: 450px;
 		}
 	}
 </style>
 <script>
 	var tooltip_version = '<?= $tooltip_version; ?>';
 	var container_horizontal_padding = 20;
-	var tooltiptext_width = 250;
-	var tooltiptext_left_dev = -20;
+	
+	// var tooltiptext_left_dev = -20;
 	
 	var sTooltip = document.getElementsByClassName('tooltip');
 	if(sTooltip.length != 0)
@@ -223,17 +206,36 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 					}
 				});
 			}
-			if(tooltip_version == 0){
-				let this_text = el.querySelector('.tooltiptext');
-				if(this_text)
-				{	
-					let this_left = el.offsetLeft + container_horizontal_padding;
-					console.log(this_left + tooltiptext_width > wW);
-					if(this_left + tooltiptext_width > wW)
-						this_text.style.left =  - (this_left + tooltiptext_width - wW -container_horizontal_padding) + tooltiptext_left_dev + 'px'
-				}
-			}
+			positionTooltip(el, container_horizontal_padding);
 		});
+		window.addEventListener('resize', function(){
+			[].forEach.call(sTooltip, function(el, i){
+				positionTooltip(el, container_horizontal_padding);
+			});
+		});
+	}
+	function positionTooltip(el){
+		let this_text = el.querySelector('.tooltiptext');
+		if(!this_text) return;
+		let windowWidth = window.innerWidth;
+		let width = getTooltipWidth(windowWidth);
+		let container_padding = getContainerPadding(windowWidth);
+		this_text.style.left = 0;
+		let right = el.offsetLeft + container_padding + width;
+		if(right > windowWidth - 20)
+			this_text.style.left =  - (right - (windowWidth - 20)) + 'px'
+	}
+	function getContainerPadding(width){
+		if(width < 737) return 20;
+		if(width < 1025) return 40;
+		if(width < 1500) return 100;
+		return (width - 1300) / 2;
+	}
+	function getTooltipWidth(width){
+		if(width < 737) return 250;
+		if(width < 1025) return 300;
+		if(width < 1500) return width * 0.3;
+		return 450;
 	}
 	if(hasTouchScreen)
 	{

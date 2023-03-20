@@ -69,7 +69,7 @@
 		<?= $body; ?>
 	</section>
 	<footer id="page-nav-container" class="float-container">
-		<? if(!empty($previous_sibling_item)){
+		<? if(false){
 			?><div id="previous-sibling"><a id="previous-sibling-link" href="/<?= $previous_sibling_item['url']; ?>"><?= $previous_sibling_item['name1']; ?></a></div><?
 		} 
 		if(!empty($next_sibling_item)){
@@ -124,7 +124,7 @@
 	#page-nav-container
 	{
 		margin-top: 60px;
-		display: none;
+/*		display: none;*/
 	}
 	#previous-sibling
 	{
@@ -133,7 +133,7 @@
 	}
 	#next-sibling
 	{
-		float: right;
+/*		float: right;*/
 		
 	}
 	#next-sibling-link,
@@ -158,7 +158,7 @@
 	{
 		margin-left: 20px;
 	}
-	#next-sibling-link:after
+	/*#next-sibling-link:after
 	{
 		content: " ";
 		display: block;
@@ -170,7 +170,7 @@
 		right: -16px;
 		top: -4px;
 		transform: rotate(-45deg);
-	}
+	}*/
 	#detail-landing-image-control-next:before
 	{
 		content: " ";

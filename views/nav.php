@@ -22,10 +22,10 @@ if(!empty($temp)){
 }
 if(!empty($title) || !empty($subtitle)) { ?>
 <header id="main-header" class="container float-container">
-	<h1 id="site-name-left"><?= $title; ?></h1><div id="nav-line"></div><h1 id="site-name-right"><?= $subtitle; ?></h1>
+	<h1 id="site-name-left"><?= $title; ?>, <?= $subtitle; ?></h1>
 </header>
 <style>
-	#nav-line
+	/*#nav-line
 	{
 		position: relative;
 		flex: 1;
@@ -40,7 +40,7 @@ if(!empty($title) || !empty($subtitle)) { ?>
 		left: 0;
 		top: 6px;
 		border-top: 2px solid #000;
-	}
+	}*/
 	#main-header > h1
 	{
 		font-size:1em;
@@ -58,6 +58,7 @@ if(!empty($title) || !empty($subtitle)) { ?>
 		box-sizing: border-box;
 		padding-top: 20px;
 		z-index: 1000;
+		pointer-events: none;
 	}
 	#site-name-left
 	{
@@ -72,16 +73,16 @@ if(!empty($title) || !empty($subtitle)) { ?>
 	@media screen and (min-width: 737px){
 		#main-header
 		{
-			padding-left: 80px;
-			padding-right: 80px;
+			padding-left: 40px;
+			padding-right: 40px;
 			padding-top: 40px;
 		}
 	}
 	@media screen and (min-width: 1025px){
 		#main-header
 		{
-			padding-left: 200px;
-			padding-right: 200px;
+			padding-left: 100px;
+			padding-right: 100px;
 			padding-top: 40px;
 		}
 	}

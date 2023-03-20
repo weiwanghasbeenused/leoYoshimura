@@ -1,5 +1,11 @@
+:root {
+	--list-item-spacing: 80px;
+}
 *{padding:0;margin:0;}
-html{-webkit-text-size-adjust: 100%;}
+html{
+	-webkit-text-size-adjust: 100%;
+	
+}
 body{
 	font-family:helvetica, arial, sans-serif;
     font-size:11px;
@@ -29,6 +35,7 @@ a
 #main-header a
 {
 	text-decoration: none;
+	pointer-events: initial;
 }
 
 .noTouchScreen .list-item-link:hover,
@@ -126,10 +133,18 @@ main {
 		display: none;
 	}
 }
+@media screen and (min-width: 1000px){
+	:root {
+		--list-item-spacing: 9vw;
+	}
+}
 /* ==========
 	 laptop
    ========== */
 @media screen and (min-width: 1025px){
+	/*:root {
+		--list-item-spacing: 80px;
+	}*/
 	.container
 	{
 		padding-left: 100px;
@@ -140,15 +155,19 @@ main {
 	 large screen
    ================ */
 @media screen and (min-width: 1500px){
+	:root {
+		--list-item-spacing: 135px;
+	}
+	.container
+	{
+		padding-left: 100px;
+		padding-right: 100px;
+	}
 	.container
 	{
 		padding-left: 0;
 		padding-right: 0;
 		margin: 0 auto;
 		width: 1300px;
-	}
-	.tooltiptext
-	{
-		width: 350px;
 	}
 }

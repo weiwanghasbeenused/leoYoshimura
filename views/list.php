@@ -42,25 +42,32 @@ if($uri[1] == 'list') {
 	#list-wrapper
 	{
 		position: relative;
-		width: calc(100% + 20px);
-		left: -10px;
-		margin-top: 40px;
+/*		width: calc(100% + 20px);*/
+/*		left: -10px;*/
+		margin-top: var(--list-item-spacing);
+		display: flex;
+		flex-wrap: wrap;
 	}
 	.list-item
 	{
 		box-sizing: border-box;
 		display: inline-block;
-		width: 50%;
-		padding: 0 10px;
-		margin-bottom: 30px;
+		flex: 0 0 calc( 50% - var(--list-item-spacing) / 2 );
+/*		padding: 0 10px;*/
+		margin-bottom: var(--list-item-spacing);
 		vertical-align: top;
+	}
+	.list-item:nth-child(2n)
+	{
+		margin-left: var(--list-item-spacing);
 	}
 	.list-item-title
 	{
+/*		display: inline-block;*/
+		display: none;
 		font-size: 14px;
 		line-height: 1.3em;
 		font-weight: 400;
-		display: inline-block;
 		border-bottom: 2px solid transparent;
 		padding: 0 2px 2px 2px;
 	}
@@ -84,7 +91,7 @@ if($uri[1] == 'list') {
 	.noTouchScreen .list-item-link:hover .list-item-thumbnail
 	{
 		transition: transform .25s;
-		transform: scale(1.2);
+		transform: scale(1.07);
 	}
 	.noTouchScreen .list-item-link:hover .list-item-title
 	{
@@ -97,9 +104,26 @@ if($uri[1] == 'list') {
 		text-align: center;
 	}
 	@media screen and (min-width: 737px){
-		.list-item
+		/*.list-item
 		{
 			width: 33.3%;
+		}*/
+	}
+	@media screen and (min-width: 1000px){
+		.list-item {
+			flex-basis:calc( 33% - var(--list-item-spacing) * 2 / 3 );
+		}
+		.list-item:nth-child(2n)
+		{
+			margin-left: 0;
+		}
+		.list-item:nth-child(3n)
+		{
+			margin-left: var(--list-item-spacing);
+		}
+		.list-item:nth-child(3n-1)
+		{
+			margin-left: var(--list-item-spacing);
 		}
 	}
 	/* ==========
