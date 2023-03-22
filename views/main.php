@@ -21,6 +21,13 @@
 			unset($media[0]);
 		}
 	}
+	$images = array();
+	foreach($media as $m){
+		$images[] = array(
+			'src'     => m_url($m),
+			'caption' => $m['caption']
+		);
+	}
 	$list = getVisibleList();
 	$page_idx = false;
 	if(!empty($list)){
@@ -47,7 +54,7 @@
 	}
 ?>
 <main id="<?= $container_name ? $container_name : ''; ?>-container" class="container">
-	<? if(!empty($thumbnail)){
+	<? if(false){
 		?><div class="detail-landing-image-wrapper">
 			<img class="detail-landing-image viewing" src = "<?= $thumbnail; ?>">
 			<? if(!empty($media)){
@@ -64,6 +71,9 @@
 		</div><?
 		} 
 	} ?>
+	<? if(!empty($media)){
+		?><div id="slideshow-container"></div><?
+	} ?>
 	<h1 id="detail-title"><?= $item['name1']; ?></h1>
 	<section id="detail-body">
 		<?= $body; ?>
@@ -79,15 +89,15 @@
 	</footer>
 </main>
 <style>
-	.detail-landing-image-wrapper
+	.slideshow-figure
 	{
 		margin-bottom: 15px;
 		padding-bottom: 66.7%;
 		position: relative;
-	}
-	.detail-landing-image
-	{
 		display: none;
+	}
+	.slideshow-image
+	{
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -95,17 +105,19 @@
 		height: 100%;
 		object-fit: cover;
 	}
-	.detail-landing-image.viewing
+	.slideshow-figure.viewing
 	{
 		display: block;
 	}
-	#detail-landing-image-control-paging
+	.slideshow-control-container
 	{
-		display: inline-block;
-		vertical-align: top;
-		margin-top: 5px;
-		/*font-size: ;*/
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
 	}
+	
+	
+
 	#detail-title
 	{
 		font-size: 1em;
@@ -158,32 +170,6 @@
 	{
 		margin-left: 20px;
 	}
-	/*#next-sibling-link:after
-	{
-		content: " ";
-		display: block;
-		height: 20px;
-		width: 20px;
-		position: absolute;
-		border-right: 1px solid;
-		border-bottom: 1px solid;
-		right: -16px;
-		top: -4px;
-		transform: rotate(-45deg);
-	}*/
-	#detail-landing-image-control-next:before
-	{
-		content: " ";
-		display: block;
-		height: 100%;
-		width: 100%;
-		/*position: absolute;*/
-		border-right: 1px solid;
-		border-bottom: 1px solid;
-		/*right: -16px;*/
-		/*top: -4px;*/
-		transform: rotate(-45deg);
-	}
 	
 	#previous-sibling-link:before
 	{
@@ -198,35 +184,6 @@
 		top: -4px;
 		transform: rotate(45deg);
 	}
-	#detail-landing-image-control-prev:before
-	{
-		content: " ";
-		display: block;
-		height: 100%;
-		width: 100%;
-		/*position: absolute;*/
-		border-left: 1px solid;
-		border-bottom: 1px solid;
-		/*right: -16px;*/
-		/*top: -4px;*/
-		transform: rotate(45deg);
-		
-	}
-	#detail-landing-image-control-prev,
-	#detail-landing-image-control-next
-	{
-		display: inline-block;
-		height: 12px;
-		width: 12px;
-		position: relative;
-		padding: 5px;
-		cursor: pointer;
-	}
-	#detail-landing-image-control-prev:hover,
-	#detail-landing-image-control-next:hover
-	{
-		color: #ccc;
-	}
 	.noTouchScreen #next-sibling-link:hover:after
 	{
 		right: -24px;
@@ -237,12 +194,41 @@
 		left: -24px;
 		transition: left .25s;
 	}
-	#detail-landing-image-control
+
+	.slideshow-prev-button,
+	.slideshow-next-button
 	{
-		float: right;
-		padding-right: 5px;
+		height: 12px;
+		width: 12px;
 		position: relative;
-		top: -5px;
+		padding: 5px;
+		cursor: pointer;
+	}
+	.noTouchScreen .slideshow-prev-button:hover,
+	.noTouchScreen .slideshow-next-button:hover
+	{
+		color: #ccc;
+	}
+	.slideshow-next-button:before,
+	.slideshow-prev-button:before
+	{
+		content: " ";
+		display: block;
+		height: 100%;
+		width: 100%;
+	}
+	.slideshow-next-button:before
+	{		
+		border-right: 1px solid;
+		border-bottom: 1px solid;
+		transform: rotate(-45deg);
+	}
+	.slideshow-prev-button:before
+	{
+		border-left: 1px solid;
+		border-bottom: 1px solid;
+		transform: rotate(45deg);
+		
 	}
 	
 	/* ========
@@ -254,38 +240,20 @@
 		{
 			width: 66%;
 		}
-		.detail-landing-image-wrapper
+		.slideshow-figure
 		{
 			padding-bottom: 56%;
 		}
 	}
 </style>
+<script src = "/static/js/Slideshow.js"></script>
 <script>
-	var langing_image_index = 0;
-	let sDetail_landing_image = document.getElementsByClassName('detail-landing-image');
-	if(sDetail_landing_image.length > 0)
+	let sSlideshow_container = document.getElementById('slideshow-container');
+	let slideshow = null;
+	if(sSlideshow_container)
 	{
-		let sPaging_total = document.getElementById('paging-total');
-		sPaging_total.innerText = sDetail_landing_image.length;
-		let sPaging_current = document.getElementById('paging-current');
-		let sDetail_landing_image_control_prev = document.getElementById('detail-landing-image-control-prev');
-		let sDetail_landing_image_control_next = document.getElementById('detail-landing-image-control-next');
-		function changeImage(direction = 'next'){
-			sDetail_landing_image[langing_image_index].classList.remove('viewing');
-			if(direction == 'next')
-			{
-				langing_image_index++;
-				if(langing_image_index == sDetail_landing_image.length)
-					langing_image_index = 0;
-			}
-			else if(direction == 'prev')
-			{
-				langing_image_index--;
-				if(langing_image_index == -1)
-					langing_image_index = sDetail_landing_image.length - 1;
-			}
-			sPaging_current.innerText = langing_image_index + 1;
-			sDetail_landing_image[langing_image_index].classList.add('viewing');
-		}
+		let images = <?= json_encode($images, true); ?>;
+		slideshow = new Slideshow(sSlideshow_container, images);
 	}
+	
 </script>
