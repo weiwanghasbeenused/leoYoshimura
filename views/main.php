@@ -10,7 +10,7 @@
 		{
 			if(strpos($m['caption'], '[thumbnail]') !== false){
 				$thumbnail = m_url($m);
-				unset($media[$key]);
+				// unset($media[$key]);
 			}
 			if(strpos($m['caption'], '[hidden]') !== false)
 				unset($media[$key]);
@@ -18,7 +18,7 @@
 
 		if( empty($thumbnail) ){
 			$thumbnail = m_url($media[0]);
-			unset($media[0]);
+			// unset($media[0]);
 		}
 	}
 	$images = array();
@@ -253,6 +253,7 @@
 	if(sSlideshow_container)
 	{
 		let images = <?= json_encode($images, true); ?>;
+		console.log(images);
 		slideshow = new Slideshow(sSlideshow_container, images);
 	}
 	
