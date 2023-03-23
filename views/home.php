@@ -21,7 +21,7 @@ foreach($matches[0] as $key => $match)
 	if(isset($references[$match_key]))
 	{
 		$tooltiptext_content = preg_replace($viewMore_pattern, '<a href="/' . $references[$match_key]['url'] . '">View more</a>', $references[$match_key]['deck']);
-		$replacement = '<span class="tooltip">*<span class="tooltiptext">' . $tooltiptext_content . '</span></span>';
+		$replacement = '<span class="tooltip">*<span class="tooltiptext middle">' . $tooltiptext_content . '</span></span>';
 		$body = str_replace($match, $replacement, $body);
 	}
 	else
@@ -37,13 +37,13 @@ foreach($matches[0] as $key => $match)
 $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 ?>
 <main id="home-container" class="container" tooltip="<?= $tooltip_version; ?>">
-	<div id="introtext"><?= $body; ?></div>
+	<div id="introtext" class="large"><?= $body; ?></div>
 	<? require_once("views/list.php"); ?>
 </main>
 <style>
 	#introtext{
         position:static;
-        font-size: 2.75em;
+/*        font-size: 2.75em;*/
         line-height: 1.3em;
         letter-spacing:0.03em;
         word-spacing:-0.035em;
@@ -75,7 +75,7 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		z-index: 1;
 		cursor: initial;
 		letter-spacing: 0;
-		font-size: .5em;
+/*		font-size: .5em;*/
 		line-height: 1.4em;
 		padding-top: 10px;
 		opacity: 0;
@@ -122,7 +122,7 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
        ======== */
 	@media screen and (min-width: 737px){
 		#introtext{
-	        font-size: 4.5em;
+/*	        font-size: 4.5em;*/
 	    }
 		header
 		{
@@ -138,7 +138,7 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		}
 		.tooltiptext
 		{
-			font-size: .32em;
+/*			font-size: .32em;*/
 			line-height:1.4em;
 			width: 350px;
 		}
@@ -159,7 +159,7 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 	@media screen and (min-width: 1025px){
 		#introtext{
 	        /*position:static;*/
-	        font-size: 4.5em;
+/*	        font-size: 4.5em;*/
 	    }
 	    .tooltiptext{
 	    	width: 30vw;

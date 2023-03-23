@@ -21,7 +21,7 @@ if(!empty($temp)){
 		$subtitle = '<a href="/list">' . $subtitle . '</a>';
 }
 if(!empty($title) || !empty($subtitle)) { ?>
-<header id="main-header" class="container float-container">
+<header id="main-header" class="container float-container small">
 	<h1 id="site-name-left"><?= $title; ?>, <?= $subtitle; ?></h1>
 </header>
 <style>

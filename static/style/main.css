@@ -8,8 +8,8 @@ html{
 }
 body{
 	font-family:helvetica, arial, sans-serif;
-    font-size:11px;
-    line-height:12px;
+    font-size:16px;
+    line-height:22px;
     font-weight: 100;
     -webkit-font-smoothing: antialiased;
 }
@@ -25,7 +25,6 @@ a
 	text-decoration: underline;
 	display: inline-block;
 }
-
 .noTouchScreen a:hover
 {
 	color: #00f;
@@ -80,6 +79,15 @@ header
 main {
 	display: block;
 }
+.large {
+	font-size: 30px
+}
+.middle {
+	font-size: 16px;
+}
+.small {
+	font-size: 11px;
+}
 .container
 {
 	padding: 100px 20px 60px 20px;
@@ -131,6 +139,12 @@ main {
 	#menu_toggle
 	{
 		display: none;
+	}
+	.large {
+		font-size: 50px
+	}
+	.middle {
+		font-size: 16px;
 	}
 }
 @media screen and (min-width: 1000px){

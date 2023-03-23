@@ -3,7 +3,7 @@
 	$media = $oo->media($item['id']);
 	$thumbnail = '';
 	$body = $item['body'];
-
+	
 	if(!empty($media))
 	{
 		foreach($media as $key => $m)
@@ -15,7 +15,7 @@
 			if(strpos($m['caption'], '[hidden]') !== false)
 				unset($media[$key]);
 		}
-
+		$media = array_values($media);
 		if( empty($thumbnail) ){
 			$thumbnail = m_url($media[0]);
 			// unset($media[0]);
@@ -41,36 +41,17 @@
 		}
 	}
 
-	$previous_sibling_item = array();
-	$next_sibling_item = array();
-	if($page_idx === 0)
-		$next_sibling_item = $list[1];
-	else if($page_idx === count($list) - 1)
-		$previous_sibling_item = $list[count($list) - 2];
-	else
-	{
-		$next_sibling_item = $list[$page_idx + 1];
-		$previous_sibling_item = $list[$page_idx - 1];
-	}
+	// $previous_sibling_item = array();
+	// $next_sibling_item = array();
+	$next_sibling_item = $page_idx == count($list) - 1 || $uri[1] == 'home' ? array() : $list[$page_idx + 1];
+	$previous_sibling_item = $page_idx == 0 || $uri[1] == 'home' ? array() : $list[$page_idx - 1];
+	$siblings = array(
+		'prev' => $previous_sibling_item,
+		'next' => $next_sibling_item
+	);
+
 ?>
 <main id="<?= $container_name ? $container_name : ''; ?>-container" class="container">
-	<? if(false){
-		?><div class="detail-landing-image-wrapper">
-			<img class="detail-landing-image viewing" src = "<?= $thumbnail; ?>">
-			<? if(!empty($media)){
-				foreach($media as $m){
-					?><img class="detail-landing-image" src = "<?= m_url($m); ?>"><?
-				}
-			} ?>
-		</div>
-		<? if(!empty($media)){
-			?><div id="detail-landing-image-control">
-			<div id="detail-landing-image-control-prev" onClick="changeImage('prev')"></div>
-			<div id="detail-landing-image-control-paging"><span id="paging-current">1</span> / <span id="paging-total"></span></div>
-			<div id="detail-landing-image-control-next" onClick="changeImage('next')"></div>
-		</div><?
-		} 
-	} ?>
 	<? if(!empty($media)){
 		?><div id="slideshow-container"></div><?
 	} ?>
@@ -89,14 +70,15 @@
 	</footer>
 </main>
 <style>
-	.slideshow-figure
+	.slide-wrapper
 	{
 		margin-bottom: 15px;
 		padding-bottom: 66.7%;
 		position: relative;
 		display: none;
 	}
-	.slideshow-image
+	.slide-wrapper > img,
+	.slide-wrapper > iframe
 	{
 		position: absolute;
 		top: 0;
@@ -105,7 +87,9 @@
 		height: 100%;
 		object-fit: cover;
 	}
-	.slideshow-figure.viewing
+	
+	
+	.slide-wrapper.viewing
 	{
 		display: block;
 	}
@@ -120,15 +104,20 @@
 
 	#detail-title
 	{
-		font-size: 1em;
 		margin-bottom: 30px;
+		margin-top: -22px;
 		/*font-weight: normal;*/
 	}
-	#detail-body
+	#home-container #detail-body,
+	#home-container #detail-title
+	{
+		display: none;
+	}
+	/*#detail-body
 	{
 		font-size: 1.35em;
 		line-height: 1.35em;
-	}
+	}*/
 	/* ========
 		 ipad
 	   ======== */
@@ -136,6 +125,7 @@
 	#page-nav-container
 	{
 		margin-top: 60px;
+		display: none;
 /*		display: none;*/
 	}
 	#previous-sibling
@@ -198,8 +188,8 @@
 	.slideshow-prev-button,
 	.slideshow-next-button
 	{
-		height: 12px;
-		width: 12px;
+		height: 14px;
+		width: 20px;
 		position: relative;
 		padding: 5px;
 		cursor: pointer;
@@ -209,28 +199,57 @@
 	{
 		color: #ccc;
 	}
+
 	.slideshow-next-button:before,
 	.slideshow-prev-button:before
 	{
-		content: " ";
+/*		content: " ";*/
 		display: block;
 		height: 100%;
 		width: 100%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		font-size: 20px;
+		line-height: 20px;
 	}
 	.slideshow-next-button:before
 	{		
-		border-right: 1px solid;
+		content: "→";
+		margin-left: 10px;
+		/*border-right: 1px solid;
 		border-bottom: 1px solid;
-		transform: rotate(-45deg);
+		transform: rotate(-45deg);*/
 	}
 	.slideshow-prev-button:before
 	{
-		border-left: 1px solid;
-		border-bottom: 1px solid;
-		transform: rotate(45deg);
+		content: "←";
+/*		border-left: 1px solid;*/
+/*		border-bottom: 1px solid;*/
+/*		transform: rotate(45deg);*/
 		
 	}
-	
+	.noTouchScreen .page
+	{
+		cursor: pointer;
+		padding: 0 2px;
+		color: #888;
+	}
+	.page + .page
+	{
+		margin-left: 10px;
+	}
+	.noTouchScreen .page:hover,
+	.page.active
+	{
+/*		border-bottom: 1px solid;*/
+		color: #000;
+	}
+	.pages-container
+	{
+		margin-right: 20px;
+	}
 	/* ========
 		 ipad
 	   ======== */
@@ -240,7 +259,7 @@
 		{
 			width: 66%;
 		}
-		.slideshow-figure
+		.slide-wrapper
 		{
 			padding-bottom: 56%;
 		}
@@ -253,8 +272,24 @@
 	if(sSlideshow_container)
 	{
 		let images = <?= json_encode($images, true); ?>;
-		console.log(images);
 		slideshow = new Slideshow(sSlideshow_container, images);
+		let siblings =  <?= json_encode($siblings, true); ?>;
+		if(siblings['prev'].length !== 0 && slideshow.elements['btn_prev'])
+		{
+			slideshow.elements['btn_prev'].addEventListener('click', function(){
+				location.href = '/' + siblings['prev']['url'];
+			});
+		}
+		else slideshow.elements['btn_prev'].remove();
+
+		if(siblings['next'].length !== 0 && slideshow.elements['btn_next'])
+		{
+			slideshow.elements['btn_next'].addEventListener('click', function(){
+				location.href = '/' + siblings['next']['url'];
+			});
+		}
+		else slideshow.elements['btn_next'].remove();
 	}
+
 	
 </script>
