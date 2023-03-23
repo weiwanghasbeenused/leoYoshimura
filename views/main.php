@@ -55,7 +55,7 @@
 	<? if(!empty($media)){
 		?><div id="slideshow-container"></div><?
 	} ?>
-	<h1 id="detail-title"><?= $item['name1']; ?></h1>
+	<p id="detail-title"><?= $item['name1']; ?></p>
 	<section id="detail-body">
 		<?= $body; ?>
 	</section>
