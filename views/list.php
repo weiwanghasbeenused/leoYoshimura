@@ -1,17 +1,12 @@
 <?
-$children = $oo->children(0);
-foreach($children as $key => $child)
-{
-	if( substr($child['name1'], 0, 1) == '.' || substr($child['name1'], 0, 1) == '_' )
-		unset($children[$key]);
-}
-$children = array_reverse(array_values($children));
+$children_list = getVisibleList();
+$children_list_length = count($children_list);
 
 if($uri[1] == 'list') {
 	?><div id="list-container" class="container"><?
 }
 ?><div id="list-wrapper" class=""><?
-foreach($children as $child)
+foreach($children_list as $child)
 {
 	$c_title = $child['name1'];
 	$c_media = $oo->media($child['id']);

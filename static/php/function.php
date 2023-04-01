@@ -3,7 +3,7 @@ function getVisibleList(){
 	global $db;
 	$output = array();
 
-	$sql = 'SELECT objects.* FROM objects, wires WHERE objects.active = "1" AND wires.active = "1" AND wires.toid = objects.id AND wires.fromid = "0" AND objects.name1 NOT LIKE ".%" AND objects.name1 NOT LIKE "\_%" ORDER BY objects.begin DESC';
+	$sql = 'SELECT objects.* FROM objects, wires WHERE objects.active = "1" AND wires.active = "1" AND wires.toid = objects.id AND wires.fromid = "0" AND objects.name1 NOT LIKE ".%" AND objects.name1 NOT LIKE "\_%" ORDER BY objects.rank ASC, objects.begin DESC';
 
 	$res = $db->query($sql);
 	if(!$res)

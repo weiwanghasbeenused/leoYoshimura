@@ -179,7 +179,6 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 <script>
 	var tooltip_version = '<?= $tooltip_version; ?>';
 	var container_horizontal_padding = 20;
-	
 	// var tooltiptext_left_dev = -20;
 	
 	var sTooltip = document.getElementsByClassName('tooltip');
@@ -214,6 +213,7 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 			});
 		});
 	}
+
 	function positionTooltip(el){
 		let this_text = el.querySelector('.tooltiptext');
 		if(!this_text) return;

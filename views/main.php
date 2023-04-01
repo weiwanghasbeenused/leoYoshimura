@@ -55,7 +55,7 @@
 	<? if(!empty($media)){
 		?><div id="slideshow-container"></div><?
 	} ?>
-	<p id="detail-title"><?= $item['name1']; ?></p>
+	<h1 id="detail-title"><?= $item['name1']; ?></h1>
 	<section id="detail-body">
 		<?= $body; ?>
 	</section>
@@ -104,9 +104,8 @@
 
 	#detail-title
 	{
-		margin-bottom: 30px;
-		margin-top: -22px;
-		/*font-weight: normal;*/
+		margin-bottom: 10px;
+		font-weight: 100;
 	}
 	#home-container #detail-body,
 	#home-container #detail-title
@@ -255,6 +254,9 @@
 	   ======== */
 
 	@media screen and (min-width: 737px){
+		#detail-title{
+			margin-top: -23px;
+		}
 		#detail-body
 		{
 			width: 66%;

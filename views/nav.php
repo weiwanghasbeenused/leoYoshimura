@@ -2,27 +2,15 @@
 $temp = $oo->urls_to_ids(array('nav'));
 $nav_id = end($temp);
 $nav_item = $oo->get($nav_id);
-$title = '';
-$subtitle = '';
-$title_pattern = '/\[(title|home)\]\((.*?)\)/';
-$subtitle_pattern = '/\[(subtitle|listing)\]\((.*?)\)/';
+$title = strip_tags($nav_item['deck']);
+$right = strip_tags($nav_item['body']);
+$link_pattern = '/\[(.*?)\]\((.*?)\)/';
+$title = preg_replace($link_pattern, '<a href="$2">$1</a>', $title);
+$right = preg_replace($link_pattern, '<a href="$2">$1</a>', $right);
 
-preg_match($title_pattern, $nav_item['body'], $temp);
-if(!empty($temp)){
-	$title = $temp[2];
-	if($temp[1] == 'home')
-		$title = '<a href="/">' . $title . '</a>';
-}
-
-preg_match($subtitle_pattern, $nav_item['body'], $temp);
-if(!empty($temp)){
-	$subtitle = $temp[2];
-	if($temp[1] == 'listing')
-		$subtitle = '<a href="/list">' . $subtitle . '</a>';
-}
-if(!empty($title) || !empty($subtitle)) { ?>
+if(!empty($title) || !empty($right)) { ?>
 <header id="main-header" class="container float-container small">
-	<h1 id="site-name-left"><?= $title; ?>, <?= $subtitle; ?></h1>
+	<h1 id="site-name"><?= $title; ?></h1><div id="nav-right"><?= $right; ?></div>
 </header>
 <style>
 	/*#nav-line
@@ -41,10 +29,9 @@ if(!empty($title) || !empty($subtitle)) { ?>
 		top: 6px;
 		border-top: 2px solid #000;
 	}*/
-	#main-header > h1
+	#main-header
 	{
-		font-size:1em;
-	    line-height: 1.4em;
+	    line-height: 1.4;
 		letter-spacing:0.05em;
 		word-spacing:-0.1em;
 	}
@@ -54,28 +41,29 @@ if(!empty($title) || !empty($subtitle)) { ?>
 		position: fixed;
 		top: 0;
 		left: 0;
-		display: flex;
+/*		display: flex;*/
 		box-sizing: border-box;
 		padding-top: 20px;
 		z-index: 1000;
 		pointer-events: none;
 	}
-	#site-name-left
+	#site-name
 	{
 		float: left;
 	}
-	#site-name-right
+	#nav-right
 	{
 		float: right;
 		max-width: 40%;
 		text-align: right;
+		font-weight: 700;
 	}
 	@media screen and (min-width: 737px){
 		#main-header
 		{
 			padding-left: 40px;
 			padding-right: 40px;
-			padding-top: 40px;
+			padding-top: 30px;
 		}
 	}
 	@media screen and (min-width: 1025px){
@@ -83,7 +71,7 @@ if(!empty($title) || !empty($subtitle)) { ?>
 		{
 			padding-left: 100px;
 			padding-right: 100px;
-			padding-top: 40px;
+/*			padding-top: 40px;*/
 		}
 	}
 	@media screen and (min-width: 1500px){
