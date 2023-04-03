@@ -73,19 +73,19 @@
 	.slide-wrapper
 	{
 		margin-bottom: 15px;
-		padding-bottom: 66.7%;
+/*		padding-bottom: 66.7%;*/
 		position: relative;
 		display: none;
 	}
 	.slide-wrapper > img,
 	.slide-wrapper > iframe
 	{
-		position: absolute;
-		top: 0;
-		left: 0;
+/*		position: absolute;*/
+/*		top: 0;*/
+/*		left: 0;*/
 		width: 100%;
-		height: 100%;
-		object-fit: cover;
+/*		height: 100%;*/
+/*		object-fit: cover;*/
 	}
 	
 	
@@ -263,7 +263,7 @@
 		}
 		.slide-wrapper
 		{
-			padding-bottom: 56%;
+/*			padding-bottom: 56%;*/
 		}
 	}
 </style>
