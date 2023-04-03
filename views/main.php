@@ -104,6 +104,7 @@
 
 	#detail-title
 	{
+		margin-top: -23px;
 		margin-bottom: 10px;
 		font-weight: 100;
 	}
