@@ -1,2 +1,3 @@
 media/*.*
 *.sql
+static/bash/log
