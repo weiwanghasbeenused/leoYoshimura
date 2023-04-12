@@ -1,5 +1,5 @@
 class Slideshow{
-	constructor(container, images){
+	constructor(container, images, pageTitle){
 		this.container = container;
 		this.images = images;
 		this.captionKeywords = /[\[hidden\]|\[thumbnail\]]/ig;
@@ -8,11 +8,12 @@ class Slideshow{
 		this.elements = {};
 		this.elements['wrappers'] = [];
 		this.elements['pages'] = [];
+		this.pageTitle = pageTitle;
 		this.init();
 	}
 	init(){
 		this.container.appendChild(this.renderSlides());
-		this.container.appendChild(this.renderControls());
+		this.container.appendChild(this.renderInfo( this.pageTitle ));
 		this.addListeners();
 	}
 
@@ -32,18 +33,24 @@ class Slideshow{
 		let div = document.createElement('DIV');
 		div.className = 'slide-wrapper';
 		div.innerHTML = iframe;
-		console.log(iframe);
 		return div;
 	}
 	renderFigureWrapper(item){
 		let figure = document.createElement('FIGURE');
 		figure.className = 'slide-wrapper';
 		let img = document.createElement('IMG');
-		// img.className = "slideshow-image";
 		img.setAttribute('src', item.src);
 		figure.appendChild(img);
 
 		return figure;
+	}
+	renderInfo(){
+		let container = document.createElement('DIV');
+		container.className = "slideshow-info";
+		container.innerHTML = "<h1 id='detail-title'>" + this.pageTitle + "</h1>";
+		container.appendChild(this.renderControls());
+		return container;
+
 	}
 	renderControls(){
 		let container = document.createElement('DIV');
@@ -67,11 +74,6 @@ class Slideshow{
 				paging.appendChild(p);
 			}
 		}
-		
-		// let current = document.createElement('SPAN');
-		// current.innerText = this.idx + 1;
-		// paging.innerText = ' / ' + this.images.length;
-		// paging.insertBefore(current, paging.firstChild);
 		let btn_next = document.createElement('DIV');
 		btn_next.className = 'slideshow-next-button';
 		container.appendChild(paging);
@@ -79,39 +81,23 @@ class Slideshow{
 		container.appendChild(btn_next);
 		this.elements['btn_prev'] = btn_prev;
 		this.elements['btn_next'] = btn_next;
-		// this.elements['current'] = current;
 		return container;
 	}
 	addListeners(){
-		// this.elements['btn_prev'].addEventListener('click', function(){
-		// 	this.prevSlide();
-		// }.bind(this));
-		// this.elements['btn_next'].addEventListener('click', function(){
-		// 	this.nextSlide();
-		// }.bind(this));
 	}
 	prevSlide(){
 		let old = this.idx
-		// this.removeCurrentSlide();
 		this.idx = this.idx == 0 ? this.images.length - 1 : this.idx - 1;
 		this.switchSlide(this.idx, old);
-		// this.elements['wrappers'][this.idx].classList.add('viewing');
-		// this.updatePaging();
 	}
 	nextSlide(){
 		let old = this.idx
-		// this.removeCurrentSlide();
 		this.idx = this.idx == this.images.length - 1 ? 0 : this.idx + 1;
-		// this.elements['wrappers'][this.idx].classList.add('viewing');
-		// this.updatePaging();
 		this.switchSlide(this.idx, old);
 	}
 	jumpToSlide(event){
 		let old = this.idx
-		// this.removeCurrentSlide();
 		this.idx = parseInt(event.target.getAttribute('idx'));
-		// this.elements['wrappers'][this.idx].classList.add('viewing');
-		// this.updatePaging();
 		this.switchSlide(this.idx, old);
 	}
 	removeCurrentSlide(){
@@ -126,7 +112,6 @@ class Slideshow{
 	}
 	updatePaging(){
 		// this.elements['current'].innerText = this.idx + 1;
-
 	}
 
 }

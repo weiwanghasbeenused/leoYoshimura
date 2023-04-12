@@ -55,7 +55,6 @@
 	<? if(!empty($media)){
 		?><div id="slideshow-container"></div><?
 	} ?>
-	<h1 id="detail-title"><?= $item['name1']; ?></h1>
 	<section id="detail-body">
 		<?= $body; ?>
 	</section>
@@ -98,14 +97,15 @@
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
+		flex: 1;
 	}
 	
 	
 
 	#detail-title
 	{
-		margin-top: -23px;
-		margin-bottom: 10px;
+/*		margin-top: -23px;*/
+/*		margin-bottom: 10px;*/
 		font-weight: 100;
 	}
 	#home-container #detail-body,
@@ -242,13 +242,18 @@
 	{
 		margin-right: 20px;
 	}
+	.slideshow-info
+	{
+		display: flex;
+		align-items:start;
+	}
 	/* ========
 		 ipad
 	   ======== */
 
 	@media screen and (min-width: 737px){
 		#detail-title{
-			margin-top: -23px;
+/*			margin-top: -23px;*/
 		}
 		#detail-body
 		{
@@ -267,7 +272,7 @@
 	if(sSlideshow_container)
 	{
 		let images = <?= json_encode($images, true); ?>;
-		slideshow = new Slideshow(sSlideshow_container, images);
+		slideshow = new Slideshow(sSlideshow_container, images, '<?= addslashes($item['name1']); ?>');
 		let siblings =  <?= json_encode($siblings, true); ?>;
 		if(siblings['prev'].length !== 0 && slideshow.elements['btn_prev'])
 		{
