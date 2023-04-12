@@ -97,24 +97,19 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 	}
 
 	
-	/*#home-container[tooltip="1"] .tooltiptext
+	.iframe-container
 	{
-		position: fixed;
-		right: 0;
+		padding-bottom: 56%;
+		position: relative;
+	}
+	.iframe-container > iframe
+	{
+		position: absolute;
+		width: 100%;
+		height: 100%;
 		top: 0;
-		height: 100vh;
-		border-top: none;
-		border-bottom: none;
-		transform: translate(250px, 0);
-		width: 90vw;
+		left: 0;
 	}
-	#home-container[tooltip="1"] .tooltip.active .tooltiptext
-	{
-		transform: translate(0, 0);
-		transition: transform .5s;
-	}
-*/
-	
 
 
 	/* ========
@@ -138,7 +133,6 @@ $tooltip_version = isset($_GET['tooltip']) ? $_GET['tooltip'] : 0;
 		}
 		.tooltiptext
 		{
-/*			font-size: .32em;*/
 			line-height:1.4em;
 			width: 350px;
 		}
